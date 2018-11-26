@@ -8,3 +8,10 @@ an gateway for kafka by http
  * 使用JAAS验证 SASL\_PLAN
 
  * 后续有空会持续维护
+
+# Protocol
+
+ * consumer get http://127.0.0.1:9099/dk/log/massfetch?maxcount=1000&topic=topicname
+
+
+ * producer post http://127.0.0.1:9099/dk/log/masspush topic=xxx&data=urlencode(xxxx) x-www-form-urlencoded
