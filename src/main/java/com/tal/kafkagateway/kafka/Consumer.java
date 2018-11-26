@@ -45,8 +45,7 @@ public class Consumer implements DisposableBean, Runnable {
     private List<String> topicList = new ArrayList<>();
 
     //is pause
-    private HashMap<String,Boolean> isPause = new HashMap<String, Boolean>();
-
+    private HashMap<String, Boolean> isPause = new HashMap<String, Boolean>();
 
     @PostConstruct
     public void start() {
@@ -63,12 +62,20 @@ public class Consumer implements DisposableBean, Runnable {
 
             topicList.clear();
 
+            //init all list
             for (int topicIndex = 0; topicIndex < topicListStringArray.length; topicIndex++) {
+
+                //init queue
                 consumerLogQueue.initQueue(topicListStringArray[topicIndex].trim());
-                isPause.put(topicListStringArray[topicIndex],false);
+
+                //init pause status
+                isPause.put(topicListStringArray[topicIndex], false);
+
+                //init topic list
                 topicList.add(topicListStringArray[topicIndex]);
             }
 
+            //consumer start
             consumer = KafkaUtil.getConsumer(configHelper.getKafkaserver(), configHelper.getKafkagroupid(), configHelper.getUser(), configHelper.getPasswd());
 
             //start with set offset
@@ -91,21 +98,17 @@ public class Consumer implements DisposableBean, Runnable {
 
                 for (ConsumerRecord<String, String> record : records) {
 
-                    //partion offset record
-                    //parationOffset.put(record.partition(), record.offset());
-
-                    //log.info("fetched from partition " + record.partition() + ", offset: " + record.offset() + ", message: " + record.value());
-
                     if (record.value().trim().length() == 0) {
                         continue;
                     }
 
-                    kafkaLogStruct content = new kafkaLogStruct(record.topic(),record.partition(), record.offset(), record.value());
+                    kafkaLogStruct content = new kafkaLogStruct( record.topic(), record.partition(), record.offset(), record.key(), record.value());
 
-                    consumerLogQueue.insertDataQueue(content.getTopic(),content);
+                    consumerLogQueue.insertDataQueue(content.getTopic(), content);
                 }
 
 
+                //pause && resume
                 for (String topic : topicList) {
 
                     List<PartitionInfo> parationList = consumer.partitionsFor(topic);
@@ -120,7 +123,7 @@ public class Consumer implements DisposableBean, Runnable {
                         }
                         consumer.pause(pList);
 
-                        isPause.put(topic,true);
+                        isPause.put(topic, true);
                     }
 
                     //avalible on queue resume poll
@@ -133,7 +136,7 @@ public class Consumer implements DisposableBean, Runnable {
                             pList.add(partition);
                         }
                         consumer.resume(pList);
-                        isPause.put(topic,false);
+                        isPause.put(topic, false);
                     }
 
                 }
@@ -182,6 +185,7 @@ public class Consumer implements DisposableBean, Runnable {
         return this.parationOffset;
     }
 */
+
     /**
      * stop consumer
      */

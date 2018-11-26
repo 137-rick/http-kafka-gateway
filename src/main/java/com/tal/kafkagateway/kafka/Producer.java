@@ -29,10 +29,17 @@ public class Producer {
 
     @PreDestroy
     public void shutdown() {
-        kafkaProducer.flush();
-        kafkaProducer.close();
-        kafkaProducer = null;
-        KafkaUtil.cleanProducer();
+        try {
+            if(kafkaProducer != null){
+                kafkaProducer.flush();
+                kafkaProducer.close();
+                kafkaProducer = null;
+                KafkaUtil.cleanProducer();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }
