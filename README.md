@@ -41,6 +41,7 @@ kg.kafkagroupid=kafkagateway_group
 kg.kafkaserver=kafkabrokerip:kafkabrokerport,kafkabrokerip:kafkabrokerport
 kg.user=jaas_account
 kg.passwd=jaas_pwd 
-
+kg.securityprotocol=SASL_PLAINTEXT
+kg.saslmechanism=PLAIN
 </code>
 </pre>
