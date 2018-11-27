@@ -17,7 +17,7 @@ public class KafkaUtil {
     private static KafkaProducer<String, String> kafkaProducerHandle;
 
 
-    public static KafkaConsumer<String, String> getConsumer(String serverList, String groupID, String User, String Passwd) {
+    public static KafkaConsumer<String, String> getConsumer(String serverList, String groupID, String Protocol, String Mechanism, String User, String Passwd) {
         if (kafkaConsumerHandle == null) {
 
             Properties props = new Properties();
@@ -32,8 +32,8 @@ public class KafkaUtil {
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
 
-            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-            props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, Protocol);
+            props.put(SaslConfigs.SASL_MECHANISM, Mechanism);
             props.put("sasl.jaas.config",
                     "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + User + "\" password=\"" + Passwd + "\";");
 
@@ -43,7 +43,7 @@ public class KafkaUtil {
         return kafkaConsumerHandle;
     }
 
-    public static KafkaProducer<String, String> getProducer(String serverList, String User, String Passwd) {
+    public static KafkaProducer<String, String> getProducer(String serverList, String Protocol, String Mechanism, String User, String Passwd) {
 
         if (kafkaProducerHandle == null) {
 
@@ -59,8 +59,8 @@ public class KafkaUtil {
             props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
             props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
 
-            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-            props.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, Protocol);
+            props.put(SaslConfigs.SASL_MECHANISM, Mechanism);
             props.put("sasl.jaas.config",
                     "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + User +
                             "\" password=\"" + Passwd + "\";");

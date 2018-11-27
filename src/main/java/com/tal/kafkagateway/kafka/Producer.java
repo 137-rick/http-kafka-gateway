@@ -21,7 +21,7 @@ public class Producer {
 
 
     public void pushToKafka(String Topic, String Key, String Data) {
-        kafkaProducer = KafkaUtil.getProducer(configHelper.getKafkaserver(),configHelper.getUser(),configHelper.getPasswd());
+        kafkaProducer = KafkaUtil.getProducer(configHelper.getKafkaserver(), configHelper.getSecurityprotocol(), configHelper.getSaslmechanism(),configHelper.getUser(),configHelper.getPasswd());
 
         ProducerRecord<String, String> record = new ProducerRecord<>(Topic, Key, Data);
         kafkaProducer.send(record, new ProducerCallback());

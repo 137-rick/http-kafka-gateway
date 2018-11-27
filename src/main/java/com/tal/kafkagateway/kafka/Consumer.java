@@ -76,7 +76,8 @@ public class Consumer implements DisposableBean, Runnable {
             }
 
             //consumer start
-            consumer = KafkaUtil.getConsumer(configHelper.getKafkaserver(), configHelper.getKafkagroupid(), configHelper.getUser(), configHelper.getPasswd());
+            consumer = KafkaUtil.getConsumer(configHelper.getKafkaserver(), configHelper.getKafkagroupid(), configHelper.getSecurityprotocol(),configHelper.getSaslmechanism(),
+                    configHelper.getUser(), configHelper.getPasswd());
 
             //start with set offset
             if (this.startWithOffset) {

@@ -19,6 +19,26 @@ public class ConfigHelper {
 
     private String queuedumppath;
 
+    private String securityprotocol;
+
+    private String saslmechanism;
+
+    public String getSecurityprotocol() {
+        return securityprotocol;
+    }
+
+    public void setSecurityprotocol(String securityprotocol) {
+        this.securityprotocol = securityprotocol;
+    }
+
+    public String getSaslmechanism() {
+        return saslmechanism;
+    }
+
+    public void setSaslmechanism(String saslmechanism) {
+        this.saslmechanism = saslmechanism;
+    }
+
     public String getQueuedumppath() {
         return queuedumppath;
     }
