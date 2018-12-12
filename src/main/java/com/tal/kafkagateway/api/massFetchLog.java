@@ -117,6 +117,22 @@ public class massFetchLog {
         //return jsonContent;
     }
 */
+    @RequestMapping(value = "/log/close", method = RequestMethod.GET)
+    public String closeConsumer(Model model, @RequestParam(value = "pwd", required = true) String pwd) {
+        responseStruct response = new responseStruct();
+        Gson gsonHelper = new Gson();
+
+        if(pwd.trim().equals("xes123456")){
+            consumer.shutdown();
+            response.setCode(0);
+        }else{
+            response.setMsg("密码错误");
+            response.setCode(1122);
+        }
+
+        return gsonHelper.toJson(response);
+
+    }
 
     @RequestMapping(value = "/log/queuestat", method = RequestMethod.GET)
     public Integer queueStat(Model model, @RequestParam(value = "topic", required = true) String topic) {
