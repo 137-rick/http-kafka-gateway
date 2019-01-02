@@ -32,10 +32,16 @@ public class KafkaUtil {
             props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
 
-            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, Protocol);
-            props.put(SaslConfigs.SASL_MECHANISM, Mechanism);
-            props.put("sasl.jaas.config",
-                    "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + User + "\" password=\"" + Passwd + "\";");
+            if (Protocol.length() > 0) {
+                props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, Protocol);
+            }
+            if (Mechanism.length() > 0) {
+                props.put(SaslConfigs.SASL_MECHANISM, Mechanism);
+            }
+            if (User.length() > 0 || Passwd.length() > 0) {
+                props.put("sasl.jaas.config",
+                        "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + User + "\" password=\"" + Passwd + "\";");
+            }
 
             kafkaConsumerHandle = new KafkaConsumer<>(props);
         }
@@ -59,11 +65,16 @@ public class KafkaUtil {
             props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
             props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
 
-            props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, Protocol);
-            props.put(SaslConfigs.SASL_MECHANISM, Mechanism);
-            props.put("sasl.jaas.config",
-                    "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + User +
-                            "\" password=\"" + Passwd + "\";");
+            if (Protocol.length() > 0) {
+                props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, Protocol);
+            }
+            if (Mechanism.length() > 0) {
+                props.put(SaslConfigs.SASL_MECHANISM, Mechanism);
+            }
+            if (User.length() > 0 || Passwd.length() > 0) {
+                props.put("sasl.jaas.config",
+                        "org.apache.kafka.common.security.plain.PlainLoginModule required username=\"" + User + "\" password=\"" + Passwd + "\";");
+            }
 
             props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
             props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
